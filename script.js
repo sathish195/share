@@ -1,19 +1,17 @@
-const shareBtn = document.getElementById('shareBtn')
+const shareBtn = document.getElementById('shareBtn');
 
 shareBtn.addEventListener('click', event => {
-
-  // Check for Web Share api support
-  if (navigator.share) {
-    // Browser supports native share api
+  // Check if the Web Share API is available and if the environment is suitable
+  if (navigator.share && window.isSecureContext) {
     navigator.share({
       text: 'Please read this great article: ',
-      url: 'https://www.google.com/'
-    }).then(() => {
+    })
+    .then(() => {
       console.log('Thanks for sharing!');
     })
-      .catch((err) => console.error(err));
+    .catch((err) => console.error('Error sharing:', err));
   } else {
     // Fallback
-    alert("The current browser does not support the share function. Please, manually share the link")
+    alert("The current browser does not support the share function or it's not in a secure context. Please, manually share the link.");
   }
 });
